@@ -14,7 +14,7 @@ module.exports = {
     post: function (params, callback) {
       // create a message for a user id based on the given username
       var queryStr = 'insert into messages(text, userid, roomname) \
-                      value (?, (select id from users where username = ? limit 1), ?)';
+                      values (?, (select id from users where username = ? limit 1), ?)';
       db.query(queryStr, params, (err, results) => {
         callback(err, results);
       });
@@ -24,13 +24,15 @@ module.exports = {
   users: {
     // Ditto as above.
     get: function (callback) {
+      // fetch all users
       var queryStr = 'select * from users';
       db.query(queryStr, (err, results) => {
         callback(err, results);
       });
     },
     post: function (params, callback) {
-      var queryStr = 'insert into users(username) values(?)';
+      // create a user
+      var queryStr = 'insert into users(username) values (?)';
       db.query(queryStr, params, (err, results) => {
         callback(err, results);
       });
